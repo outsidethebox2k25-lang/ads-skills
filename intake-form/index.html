@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ads Strategy Intake Form</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header .badge {
+      display: inline-block;
+      background: #7c3aed;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .header h1 span { color: #a78bfa; }
+
+    .header p {
+      color: #9ca3af;
+      font-size: 15px;
+    }
+
+    .card {
+      background: #141414;
+      border: 1px solid #262626;
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #7c3aed;
+      margin-bottom: 20px;
+      margin-top: 32px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #262626;
+    }
+
+    .section-title:first-of-type { margin-top: 0; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 560px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .card { padding: 24px; }
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #d1d5db;
+      margin-bottom: 7px;
+    }
+
+    label .req { color: #7c3aed; margin-left: 2px; }
+
+    input, select, textarea {
+      width: 100%;
+      background: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: #f0f0f0;
+      font-size: 14px;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+
+    input::placeholder, textarea::placeholder { color: #555; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #7c3aed;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+    }
+
+    select option { background: #1f1f1f; }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .checkbox-item:hover { border-color: #7c3aed; }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #7c3aed;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .checkbox-item span {
+      font-size: 13px;
+      color: #d1d5db;
+      font-weight: 500;
+    }
+
+    .checkbox-item:has(input:checked) {
+      border-color: #7c3aed;
+      background: rgba(124, 58, 237, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 32px;
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .toast {
+      display: none;
+      margin-top: 20px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .toast.success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      color: #10b981;
+    }
+
+    .toast.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="badge">AI Ads Strategist</div>
+      <h1>Cuéntanos sobre<br/><span>tu negocio</span></h1>
+      <p>Completa el formulario y recibirás tu estrategia de ads personalizada.</p>
+    </div>
+
+    <div class="card">
+      <form id="intakeForm">
+
+        <!-- CONTACTO -->
+        <div class="section-title">Información de contacto</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Nombre <span class="req">*</span></label>
+            <input type="text" name="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="field">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="tu@email.com" required />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>WhatsApp / Teléfono</label>
+            <input type="tel" name="telefono" placeholder="+1 (555) 000-0000" />
+          </div>
+          <div class="field">
+            <label>Empresa / Marca <span class="req">*</span></label>
+            <input type="text" name="empresa" placeholder="Nombre de tu negocio" required />
+          </div>
+        </div>
+
+        <!-- NEGOCIO -->
+        <div class="section-title">Tu negocio</div>
+        <div class="field">
+          <label>Sitio web <span class="req">*</span></label>
+          <input type="url" name="website" placeholder="https://tunegocio.com" required />
+        </div>
+        <div class="field">
+          <label>¿Qué vende tu negocio? <span class="req">*</span></label>
+          <textarea name="descripcion_negocio" placeholder="Describe brevemente tu producto o servicio principal..." required></textarea>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Industria <span class="req">*</span></label>
+            <select name="industria" required>
+              <option value="" disabled selected>Selecciona...</option>
+              <option>E-commerce / Retail</option>
+              <option>Servicios profesionales</option>
+              <option>Salud y bienestar</option>
+              <option>Real Estate</option>
+              <option>Educación / Cursos</option>
+              <option>Restaurantes / Food</option>
+              <option>Belleza y estética</option>
+              <option>Tecnología / SaaS</option>
+              <option>Fitness</option>
+              <option>Finanzas</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>¿Tienes ads activos ahora?</label>
+            <select name="ads_activos">
+              <option value="no">No, es mi primera vez</option>
+              <option value="si_mal">Sí, pero no están funcionando bien</option>
+              <option value="si_bien">Sí, funcionan pero quiero escalar</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PRESUPUESTO Y PLATAFORMAS -->
+        <div class="section-title">Presupuesto y plataformas</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Presupuesto mensual en ads <span class="req">*</span></label>
+            <select name="presupuesto" required>
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Menos de $500/mes</option>
+              <option>$500 – $1,500/mes</option>
+              <option>$1,500 – $5,000/mes</option>
+              <option>$5,000 – $15,000/mes</option>
+              <option>Más de $15,000/mes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Objetivo principal <span class="req">*</span></label>
+            <select name="objetivo" required>
+              <option value="" disabled selected>Selecciona...</option>
+              <option>Generar leads / prospectos</option>
+              <option>Ventas directas (e-commerce)</option>
+              <option>Tráfico a sitio web</option>
+              <option>Reconocimiento de marca</option>
+              <option>Descargas de app</option>
+              <option>Llamadas / citas</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Plataformas de interés <span class="req">*</span></label>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" name="plataformas" value="Meta (Facebook/Instagram)" />
+              <span>Meta (Facebook/Instagram)</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="plataformas" value="Google Ads" />
+              <span>Google Ads</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="plataformas" value="TikTok Ads" />
+              <span>TikTok Ads</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="plataformas" value="YouTube Ads" />
+              <span>YouTube Ads</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="plataformas" value="LinkedIn Ads" />
+              <span>LinkedIn Ads</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="plataformas" value="No sé, recomiéndame" />
+              <span>No sé, recomiéndame</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- CONTEXTO ADICIONAL -->
+        <div class="section-title">Contexto adicional</div>
+        <div class="field">
+          <label>¿Quién es tu cliente ideal? (edad, género, intereses, ubicación)</label>
+          <textarea name="cliente_ideal" placeholder="Ej: Mujeres 25-45 años, interesadas en fitness, viven en Miami y Houston..."></textarea>
+        </div>
+        <div class="field">
+          <label>¿Cuál es tu principal reto con los ads hoy?</label>
+          <textarea name="reto_principal" placeholder="Ej: Mucho costo por lead, no sé qué creativos usar, no sé a quién dirigirme..."></textarea>
+        </div>
+        <div class="field">
+          <label>¿Algo más que debamos saber?</label>
+          <textarea name="info_adicional" placeholder="Promociones activas, temporadas, competidores, contexto relevante..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          Enviar y recibir mi estrategia →
+        </button>
+        <div class="toast" id="toast"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/Cw3sSEeYscNStyUu91Mw/webhook-trigger/aa4c288d-c2d7-4ef4-9fd3-b9c23dd0398c";
+
+    document.getElementById("intakeForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const btn = document.getElementById("submitBtn");
+      const toast = document.getElementById("toast");
+      btn.disabled = true;
+      btn.textContent = "Enviando...";
+      toast.style.display = "none";
+
+      const form = e.target;
+      const data = {};
+
+      new FormData(form).forEach((value, key) => {
+        if (key === "plataformas") {
+          if (!data.plataformas) data.plataformas = [];
+          data.plataformas.push(value);
+        } else {
+          data[key] = value;
+        }
+      });
+
+      if (!data.plataformas || data.plataformas.length === 0) {
+        toast.className = "toast error";
+        toast.textContent = "Por favor selecciona al menos una plataforma.";
+        toast.style.display = "block";
+        btn.disabled = false;
+        btn.textContent = "Enviar y recibir mi estrategia →";
+        return;
+      }
+
+      data.plataformas = data.plataformas.join(", ");
+      data.fecha_envio = new Date().toISOString();
+      data.fuente = "intake-form-ads";
+
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        toast.className = "toast success";
+        toast.textContent = "✓ ¡Recibido! Nos pondremos en contacto contigo muy pronto.";
+        toast.style.display = "block";
+        form.reset();
+        btn.textContent = "Enviado ✓";
+      } catch (err) {
+        toast.className = "toast error";
+        toast.textContent = "Error al enviar. Intenta de nuevo o contáctanos directamente.";
+        toast.style.display = "block";
+        btn.disabled = false;
+        btn.textContent = "Enviar y recibir mi estrategia →";
+      }
+    });
+  </script>
+</body>
+</html>
